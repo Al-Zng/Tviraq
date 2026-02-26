@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>تحميل تطبيق Iraq Tv Max</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&display=swap');
+
+        :root {
+            /* المتغيرات اللونية من الكود الأصلي */
+            --main-bg: #050505; 
+            --sidebar-bg: #1a2a33; 
+            --accent-orange: #f59f34; 
+            --brand-blue: #4db8d8;
+            --text-light: #a0c4d1;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', sans-serif; }
+
+        body { 
+            background-color: var(--main-bg); 
+            color: white; 
+            overflow-x: hidden; /* لمنع ظهور شريط التمرير الأفقي بسبب الأنميشن */
+            line-height: 1.6;
+        }
+
+        /* تنسيق الأقسام العام */
+        section { padding: 80px 20px; }
+
+        /* --- الهيدر --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(5, 5, 5, 0.9);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .logo { font-size: 28px; font-weight: 800; color: var(--brand-blue); text-decoration: none; }
+        .logo span { color: white; }
+
+        /* --- قسم الهيرو (الأعلى) --- */
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 100vh;
+            padding-top: 120px; /* للنزول عن الهيدر */
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-content { flex: 1; text-align: right; }
+        
+        /* أنميشن العنوان */
+        .hero-title {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: white;
+            opacity: 0;
+            animation: fadeInRight 1s ease forwards; /* أنميشن دخول من اليمين */
+        }
+        .hero-title span { color: var(--brand-blue); }
+
+        .hero-desc {
+            font-size: 18px;
+            color: var(--text-light);
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeInRight 1s ease forwards 0.3s; /* تأخير بسيط */
+        }
+
+        .hero-image { flex: 1; display: flex; justify-content: center; }
+        
+        /* أنميشن الطفو للموك أب */
+        .mockup-img {
+            max-width: 100%;
+            max-height: 500px;
+            animation: float 6s ease-in-out infinite; /* أنميشن طفو مستمر */
+            filter: drop-shadow(0 15px 30px rgba(0,0,0,0.7));
+        }
+
+        /* --- قسم المميزات --- */
+        .features { background-color: #0a1114; text-align: center; }
+
+        .section-header { font-size: 32px; font-weight: bold; margin-bottom: 50px; color: white; }
+        .section-header span { color: var(--accent-orange); }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background-color: var(--sidebar-bg);
+            padding: 40px;
+            border-radius: 20px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-10px); /* صعود بسيط */
+            border-color: var(--brand-blue); /* تغيير لون الإطار */
+            background-color: rgba(26, 42, 51, 0.7);
+        }
+
+        .feature-icon { font-size: 40px; color: var(--accent-orange); margin-bottom: 20px; }
+        .feature-card h3 { font-size: 22px; margin-bottom: 10px; color: white; }
+        .feature-card p { color: var(--text-light); font-size: 15px; }
+
+        /* --- قسم التحميل --- */
+        .downloads { text-align: center; }
+
+        .downloads-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .download-card {
+            background-color: var(--sidebar-bg);
+            padding: 50px;
+            border-radius: 20px;
+            border: 2px solid rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .download-card:hover {
+            border-color: var(--accent-orange);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .dl-icon { font-size: 60px; color: white; margin-bottom: 20px; }
+        .download-card h3 { font-size: 24px; margin-bottom: 30px; color: white; }
+
+        /* زر التحميل */
+        .dl-btn {
+            display: inline-block;
+            background: var(--accent-orange);
+            color: black;
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+        .dl-btn:hover {
+            transform: scale(1.05); /* تكبير بسيط */
+            box-shadow: 0 5px 15px rgba(245, 159, 52, 0.3);
+        }
+
+        /* كارت الآيفون (قريباً) */
+        .download-card.ios {
+            opacity: 0.6;
+            cursor: not-allowed;
+            border-color: transparent;
+        }
+        .download-card.ios:hover { transform: none; border-color: transparent; }
+
+        .dl-btn.disabled {
+            background: #333;
+            color: #888;
+            pointer-events: none; /* منع الضغط */
+        }
+        
+        .badge-soon {
+            position: absolute;
+            top: 20px;
+            left: -35px;
+            background: #555;
+            color: white;
+            padding: 5px 40px;
+            transform: rotate(-45deg);
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* --- الفوتر (التذييل) --- */
+        footer {
+            background-color: #0a1114;
+            padding: 50px 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-title { font-size: 18px; color: var(--text-light); margin-bottom: 20px; }
+
+        .social-links { display: flex; justify-content: center; gap: 20px; }
+        
+        .social-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 55px;
+            height: 55px;
+            background-color: var(--sidebar-bg);
+            border-radius: 50%;
+            color: var(--text-light);
+            font-size: 24px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        /* أنميشن وتغيير لون عند التأشير */
+        .social-item:hover {
+            transform: translateY(-5px) rotate(360deg); /* صعود ودوران */
+            color: white;
+            border-color: white;
+        }
+
+        /* ألوان السوشل ميديا الخاصة */
+        .social-item.tg:hover { background-color: #0088cc; border-color: #0088cc; }
+        .social-item.tt:hover { background-color: black; border-color: white; color: white; }
+        .social-item.ig:hover { background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); border-color: transparent; }
+        .social-item.ds:hover { background-color: #5865F2; border-color: #5865F2; }
+
+        .copyright { margin-top: 30px; font-size: 14px; color: #555; }
+
+        /* ======================== الأنميشنات (Keyframes) ======================== */
+        
+        /* أنميشن الطفو المستمر للموك أب */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* أنميشن الدخول من اليمين للأعلى */
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translate3d(20px, 10px, 0);
+            }
+            to {
+                opacity: 1;
+                transform: translate3d(0, 0, 0);
+            }
+        }
+
+        /* ======================== التجاوب مع الشاشات (Responsive) ======================== */
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; }
+            .hero { flex-direction: column; text-align: center; padding-top: 100px; padding-bottom: 50px;}
+            .hero-title { font-size: 36px; }
+            .mockup-img { max-height: 350px; margin-top: 30px; }
+            .downloads-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo">Iraq Tv <span>Max</span></a>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1 class="hero-title">جرب متعة المشاهدة على <span>Iraq Tv Max</span></h1>
+            <p class="hero-desc">حمل التطبيق الآن على هاتفك الأندرويد أو شاشتك الذكية واستمتع بمئات القنوات العراقية والعربية المحدثة دائماً مجاناً وبأعلى جودة.</p>
+            <button class="dl-btn" onclick="document.getElementById('download').scrollIntoView({behavior: 'smooth'})">
+                <i class="fas fa-download"></i> حمل الآن
+            </button>
+        </div>
+        <div class="hero-image">
+            <img src="tv.png" alt="App Mockup" class="mockup-img">
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <h2 class="section-header" data-aos="fade-up">لماذا <span>تحتاج</span> هذا التطبيق؟</h2>
+        <div class="features-grid">
+            <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                <i class="fas fa-satellite-dish feature-icon"></i>
+                <h3>باقات محدثة</h3>
+                <p>قنوات عراقية، MBC، رياضة، وثائقية.. كلها في مكان واحد وتحديث تلقائي لروابط المشاهدة.</p>
+            </div>
+            <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                <i class="fas fa-tv feature-icon"></i>
+                <h3>دعم الشاشات الذكية</h3>
+                <p>واجهة مصممة خصيصاً لتناسب أجهزة الـ TV Box والشاشات الذكية بنظام أندرويد لسهولة التنقل بالأزرار.</p>
+            </div>
+            <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                <i class="fas fa-fill-drip feature-icon"></i>
+                <h3>واجهة عصرية</h3>
+                <p>تصميم مريح للعين، سريع الاستجابة، ونفس تجربة المستخدم التي تحبها في تطبيقنا الأصلي.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="downloads" id="download">
+        <h2 class="section-header" data-aos="fade-up">اختر <span>جهازك</span> وابدأ التحميل</h2>
+        <div class="downloads-grid">
+            
+            <div class="download-card" data-aos="fade-right">
+  <div class="badge-soon">قريباً</div>
+                <i class="fab fa-android dl-icon" style="color: #3DDC84;"></i>
+                <h3>هواتف أندرويد</h3>
+                <a href="URL_TO_YOUR_PHONE_APK" class="dl-btn disabled">قريباً في المتجر</a>
+            </div>
+
+            <div class="download-card" data-aos="fade-left">
+                <i class="fas fa-tv dl-icon" style="color: #4db8d8;"></i>
+                <h3>أجهزة Android TV / Box</h3>
+                <a href="/apk-tv.apk" class="dl-btn">تحميل بصيغة APK</a>
+            </div>
+
+            <div class="download-card ios" data-aos="fade-up">
+                <div class="badge-soon">قريباً</div>
+                <i class="fab fa-apple dl-icon" style="color: #A2AAAD;"></i>
+                <h3>أجهزة iOS (iPhone)</h3>
+                <a href="#" class="dl-btn disabled">قريباً في المتجر</a>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="social-title">تابعنا على منصات التواصل</div>
+        <div class="social-links">
+            <a href="https://t.me/iraqtvapp" class="social-item tg" target="_blank" title="تلكرام">
+                <i class="fab fa-telegram-plane"></i>
+            </a>
+            <a href="YOUR_TIKTOK_LINK" class="social-item tt" target="_blank" title="تيك توك">
+                <i class="fab fa-tiktok"></i>
+            </a>
+            <a href="YOUR_INSTAGRAM_LINK" class="social-item ig" target="_blank" title="انستغرام">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="YOUR_DISCORD_LINK" class="social-item ds" target="_blank" title="ديسكورد">
+                <i class="fab fa-discord"></i>
+            </a>
+        </div>
+        <div class="copyright">
+            © <script>document.write(new Date().getFullYear())</script> Iraq Tv Max. جميع الحقوق محفوظة
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // تهيئة المكتبة AOS
+        AOS.init({
+            duration: 800, // مدة الأنميشن بالملي ثانية
+            offset: 150, // متى يبدأ الأنميشن (قبل كم بكسل من الوصول للعنصر)
+            once: true, // هل يعمل الأنميشن مرة واحدة فقط؟
+        });
+    </script>
+</body>
+</html>
